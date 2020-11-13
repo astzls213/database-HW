@@ -5,6 +5,11 @@ from flask import (
     url_for,
     render_template
 )
+from flask_login import (
+    login_required,
+    login_user,
+    logout_user
+)
 from .forms import (
     LoginForm,
     RegisterForm
@@ -29,12 +34,14 @@ def login():
         # 检查密码
         if user is not None and user.verify_password(form.passwd.data):
             # 登录成功
+            login_user(user)
             return redirect(url_for('main.index'))
         else:
             # 登录失败
             flash('无效的用户名或密码！', 'danger')
             return redirect(url_for('main.login'))
     # GET
+    logout_user()   # 先登出用户，无论如何
     return render_template('login.html', form=form)
 
 @main.route('/register', methods=['GET', 'POST'])
@@ -60,6 +67,7 @@ def register():
 
 #################### 主体部分 ####################
 @main.route('/index')
+@login_required
 def index():
     return render_template('index.html')
 
