@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_sqlalchemy import SQLAlchemy
 from .config import config
+from .models import db
 
 bootstrap = Bootstrap()
-db = SQLAlchemy()
+
 
 def create_app(env_name):
     # 生成 Flask APP

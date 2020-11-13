@@ -2,7 +2,9 @@ from werkzeug.security import(
     generate_password_hash,
     check_password_hash
 )
-from . import db
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -10,7 +12,7 @@ class User(db.Model):
     username = db.Column(db.String(64), unique=True, nullable=False)
     email = db.Column(db.String(64), unique=True, nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
-    type = db.Column(db.Boolean())  # 管理员 True 普通账户 False
+    type = db.Column(db.Boolean(), nullable=False)  # 管理员 True 普通账户 False
 
     @property
     def password(self):
@@ -25,6 +27,12 @@ class User(db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def __init__(self, name, em, pw, t):
+        self.username = name
+        self.email = em
+        self.password = pw
+        self.type = t
+        
     def __repr__(self):
         return '<User %r email %r>' % (self.username, self.email)
 
