@@ -25,6 +25,7 @@
             <li><a href="">develop</a></li>
         </ul>
         <form class="navbar-form navbar-right" action="{{ url_for('main.search') }}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <select name="option" class="form-control">
                 <option value="cn_name">中文刊名</option>
                 <option value="issn">ISSN</option>
