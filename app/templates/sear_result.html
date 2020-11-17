@@ -1,8 +1,12 @@
 {% extends 'main_base.html' %}
 
+{% block title %}
+    查询结果 - 期刊管理系统
+{% endblock title %}
+
 {% block panel_head %}
-总览
-{% endblock %}
+    查询结果
+{% endblock panel_head %}
 
 {% block panel_body %}
 {% for tag, msg in get_flashed_messages(with_categories=true) %}
@@ -10,10 +14,6 @@
     {{ msg }}
 </div>
 {% endfor %}
-<p>
-    这是一个期刊管理系统。这里可以显示欢迎信息，以及期刊数据集的一些
-    概览。如：总期刊数量，blahblah.
-</p>
 {% endblock panel_body %}
 
 {% block table_head %}
@@ -24,24 +24,24 @@
     <th class="col-md-3">主办方</th>
     <th class="col-md-2">主编</th>
 </tr>
-{% endblock %}
+{% endblock table_head %}
 
 {% block table_body %}
-{% for journal in journals %}
+    {% for result in results %}
     <tr>
         <td>{{ loop.index }}</td>
-        <td><a href="">{{ journal.cn_name }}</a></td>
-        <td>{{ journal.en_name }}</td>
+        <td><a href="">{{ result.cn_name }}</a></td>
+        <td>{{ result.en_name }}</td>
         <td>
-        {% for editor in journal.editors %}
+        {% for editor in result.editors %}
         {{ editor.name }} 
         {% endfor %}
         </td>
         <td>
-        {% for organ in journal.organizers %}
+        {% for organ in result.organizers %}
         {{ organ.name }} 
         {% endfor %}
         </td>
     </tr>
     {% endfor %}
-{% endblock  %}
+{% endblock table_body %}

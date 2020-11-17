@@ -44,7 +44,7 @@ class RegisterForm(FlaskForm):
         label='用户名',
         validators=[
             Required(),
-            Length(1,64),
+            Length(1,32),
             Regexp(
                 '^[A-Za-z][A-Za-z0-9_]*$',
                 0,
