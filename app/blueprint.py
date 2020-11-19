@@ -193,10 +193,25 @@ def insert():
 
 
 # 删除期刊路由
-@main.route('/delete', methods=['GET','POST'])
+@main.route('/delete/<issn>')
 @login_required
-def delete():
-    pass
+def delete(issn):
+    check_permission()
+    journal = Journal.query.filter_by(issn=issn).first()
+    # 先删除所有依赖: Email/主编/主办单位
+    for tmp in journal.emails:
+        db.session.delete(tmp)
+    for tmp in journal.editors:
+        journal.editors.remove(tmp)
+    for tmp in journal.organizers:
+        journal.organizers.remove(tmp)
+    # 先提交
+    db.session.commit()
+    # 再删掉他自己
+    db.session.delete(journal)
+    db.session.commit()
+    flash('删除期刊 {} 成功！'.format(issn), 'success')
+    return render_template('index.html')
 # 修改期刊路由
 @main.route('/update/<issn>', methods=['GET','POST'])
 @login_required

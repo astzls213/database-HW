@@ -15,6 +15,9 @@ def create_app(env_name):
     app = Flask(__name__)
     # 注册app变量
     app.config.from_object(config[env_name])
+    # 配置路径
+    app.static_folder = 'static'
+    app.template_folder = 'templates'
     # 初始化插件
     bootstrap.init_app(app)
     db.init_app(app)
