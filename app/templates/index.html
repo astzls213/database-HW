@@ -1,7 +1,7 @@
 {% extends 'main_base.html' %}
 
 {% block panel_head %}
-总览
+消息
 {% endblock %}
 
 {% block panel_body %}
@@ -30,7 +30,7 @@
 {% for journal in journals %}
     <tr>
         <td>{{ loop.index }}</td>
-        <td><a href="">{{ journal.cn_name }}</a></td>
+        <td><a href="{{ url_for('main.detail', issn=journal.issn) }}">{{ journal.cn_name }}</a></td>
         <td>{{ journal.en_name }}</td>
         <td>
         {% for editor in journal.editors %}
@@ -43,5 +43,5 @@
         {% endfor %}
         </td>
     </tr>
-    {% endfor %}
+{% endfor %}
 {% endblock  %}

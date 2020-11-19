@@ -1,8 +1,11 @@
 from flask_wtf import FlaskForm
+from datetime import datetime
 from wtforms import (
     StringField,
     PasswordField,
     SubmitField,
+    SelectField,
+    IntegerField,
     ValidationError
 )
 from wtforms.validators import (
@@ -10,7 +13,8 @@ from wtforms.validators import (
     Email,
     Length,
     EqualTo,
-    Regexp
+    Regexp,
+    NumberRange
 )
 from .models import (
     User
@@ -84,4 +88,102 @@ class RegisterForm(FlaskForm):
         if User.query.filter_by(username=field.data).first():
             raise ValidationError('用户名已被注册。')
 
-
+# 期刊表单
+class JournalForm(FlaskForm):
+    cn_name = StringField(
+        label='中文刊名*',
+        validators=[
+            Required('不能为空哦'),
+            Length(1,128)
+        ]
+    )
+    en_name = StringField(
+        label='英文刊名*',
+        validators=[
+            Required('不能为空哦'),
+            Length(1,128)
+        ]
+    )
+    issn = StringField(
+        label='ISSN*',
+        validators=[
+            Required(),
+            Length(1,9),
+            Regexp(
+                '^[0-9]{4}-[0-9]{3}[0-9xX]$',
+                0,
+                '无效的ISSN号,比如:0366-2341 '
+            )
+        ]
+    )
+    cn = StringField(
+        label='CN*',
+        validators=[
+            Required(),
+            Length(1,12),
+            Regexp(
+                '^[0-9]{2}-[0-9]{4}/[A-Z][A-Z0-9]?$',
+                0,
+                '请输入有效的CN号,比如:31-1339/TN'
+            )
+        ]
+    )
+    organizers = StringField(
+        label='主办单位*',
+        validators=[Required('不能为空哦')]
+    )
+    editors = StringField(
+        label='主编*',
+        validators=[Required('不能为空哦')]
+    )
+    public_year = IntegerField(
+        label='创刊时间*',
+        validators=[
+            Required('请输入有效数字'),
+            NumberRange(1800,datetime.now().year,'有效范围为1800至今')
+        ]
+    )
+    public_cycle = IntegerField(
+        label='出版周期(期/年)*',
+        validators=[
+            Required('请输入有效数字'),
+            NumberRange(1,48,'有效范围1~48')
+        ]
+    )
+    address = StringField(
+        label='地址*',
+        validators=[
+            Required('不能为空哦'),
+            Length(1,128)
+        ]
+    )
+    zipcode = StringField(
+        label='邮政编码*',
+        validators=[
+            Required(),
+            Regexp(
+                '^[0-9]{6}$',
+                0,
+                '请输入有效邮编,比如:100710'
+            )
+        ]
+    )
+    emails = StringField(
+        label='电子邮箱',
+        validators=[
+            Length(0,128)
+        ]
+    )
+    tel = StringField(
+        label='电话',
+        validators=[
+            Length(0,32)
+        ]
+    )
+    fax = StringField(
+        label='传真',
+        validators=[
+            Length(0,32)
+        ]
+    )
+    insert_submit = SubmitField('提交')

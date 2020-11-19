@@ -30,7 +30,7 @@
     {% for result in results %}
     <tr>
         <td>{{ loop.index }}</td>
-        <td><a href="">{{ result.cn_name }}</a></td>
+        <td><a href="{{ url_for('main.detail', issn=result.issn) }}">{{ result.cn_name }}</a></td>
         <td>{{ result.en_name }}</td>
         <td>
         {% for editor in result.editors %}

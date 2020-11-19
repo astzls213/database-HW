@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_bootstrap import Bootstrap
-from flask_wtf.csrf import CsrfProtect
+from flask_wtf.csrf import CSRFProtect
 from .config import config
 from .models import (
     db,
@@ -8,7 +8,7 @@ from .models import (
 )
 
 bootstrap = Bootstrap()
-csrf = CsrfProtect()
+csrf = CSRFProtect()
 
 def create_app(env_name):
     # 生成 Flask APP

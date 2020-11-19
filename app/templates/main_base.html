@@ -9,6 +9,10 @@
 {{ super() }}
 <link rel="stylesheet"
       href="../static/main_frame.css">
+{% block my_styles %}
+    
+{% endblock my_styles %}
+
 {% endblock styles %}
 
 {# 这是导航栏 #}
@@ -43,13 +47,15 @@
         {# 这是侧边栏 #}
         <div class="col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li class="active"><a href="{{ url_for('main.index') }}">总览 <span class="sr-only">(current)</span></a></li>
-                <li><a href="">生成报表</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-            <li><a href="">增添期刊</a></li>
-            <li><a href="">删除期刊</a></li>
-            <li><a href="">修改期刊</a></li>
+                <li class="active">
+                    <a href="{{ url_for('main.index') }}">总览</a>
+                </li>
+                <li>
+                    <a href="{{ url_for('main.insert') }}">增添新期刊</a>
+                </li>
+                <li>
+                    <a href="">生成报表</a>
+                </li>
             </ul>
         </div>
         {# 这是页面内容 #}
@@ -66,7 +72,6 @@
                     
                 {% endblock %}
             </div>
-
             <table class="table table-striped">
                 <thead>
                     {% block table_head %}
@@ -81,6 +86,10 @@
             </table>
         </div>
         {% endblock page_content%}
+
+        {% block custom_content %}
+            
+        {% endblock custom_content %}
         </div>
     </div>
 </div>

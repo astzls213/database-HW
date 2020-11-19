@@ -114,7 +114,7 @@ class Journal(db.Model):
         nullable=False
     )
     zipcode = db.Column(
-        db.String(16),
+        db.String(6),
         nullable=False
     )
     tel = db.Column(

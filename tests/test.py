@@ -45,4 +45,3 @@ def init_database(app,db):
         CMJ.organizers.append(organ1)
         CMJ.organizers.append(organ2)
         db.session.commit()
-    
