@@ -10,10 +10,11 @@
     {{ msg }}
 </div>
 {% endfor %}
-<p>
-    这是一个期刊管理系统。这里可以显示欢迎信息，以及期刊数据集的一些
-    概览。如：总期刊数量，blahblah.
-</p>
+<div class="jumbotron">
+    <p>
+        欢迎回来！{{ username }}。
+    </p>
+</div>
 {% endblock panel_body %}
 
 {% block table_head %}

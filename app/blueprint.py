@@ -4,7 +4,8 @@ from flask import (
     redirect,
     url_for,
     render_template,
-    request
+    request,
+    send_file
 )
 from flask_login import (
     login_required,
@@ -13,6 +14,8 @@ from flask_login import (
     current_user
 )
 from datetime import datetime
+from pdfkit import from_url
+from xhtml2pdf import pisa
 from .forms import (
     LoginForm,
     RegisterForm,
@@ -83,7 +86,9 @@ def register():
 def index():
     # 获取数据库所有 journal 数据
     journals = Journal.query.all()
-    return render_template('index.html', journals=journals)
+    username = current_user.username
+    flash('目前期刊数: {}'.format(len(journals)), 'info')
+    return render_template('index.html', journals=journals, username=username)
 
 # 搜索功能路由
 @main.route('/search', methods=['POST'])
@@ -119,7 +124,10 @@ def search():
 @login_required
 def insert():
     journal_form = JournalForm()
-    check_permission()
+    # 检查当前用户是否有权限
+    if current_user.type == False:
+        flash('此操作无权限对于当前用户。', 'danger')
+        return redirect(url_for('main.index'))
     if journal_form.insert_submit.data and journal_form.validate():
         # 检查 issn/cn 是否重复
         sanity_check = []
@@ -196,7 +204,10 @@ def insert():
 @main.route('/delete/<issn>')
 @login_required
 def delete(issn):
-    check_permission()
+    # 检查当前用户是否有权限
+    if current_user.type == False:
+        flash('此操作无权限对于当前用户。', 'danger')
+        return redirect(url_for('main.index'))
     journal = Journal.query.filter_by(issn=issn).first()
     # 先删除所有依赖: Email/主编/主办单位
     for tmp in journal.emails:
@@ -211,13 +222,17 @@ def delete(issn):
     db.session.delete(journal)
     db.session.commit()
     flash('删除期刊 {} 成功！'.format(issn), 'success')
-    return render_template('index.html')
+    return redirect(url_for('main.index'))
+
 # 修改期刊路由
 @main.route('/update/<issn>', methods=['GET','POST'])
 @login_required
 def update(issn):
     update_form = JournalForm()
-    check_permission()
+    # 检查当前用户是否有权限
+    if current_user.type == False:
+        flash('此操作无权限对于当前用户。', 'danger')
+        return redirect(url_for('main.index'))
     journal = Journal.query.filter_by(issn=issn).first()
     # POST 
     if update_form.insert_submit.data and update_form.validate():
@@ -334,19 +349,23 @@ def detail(issn):
     journal = Journal.query.filter_by(issn=issn).one()
     return render_template('journal_detail.html', journal=journal)
 
-# 生成报表路由
-@main.route('/report', methods=['GET','POST'])
+# 返回报表PDF路由
+@main.route('/pdf')
 @login_required
-def report():
-    pass
+def pdf():
+    return send_file('../report.pdf')
+
+# 打印报表视图
+@main.route('/print_report')
+@login_required
+def print_report():
+    return render_template('print_report.html')
+
+# 报表视图 请勿添加 login_required
+# 否则 electron 打不开页面
+@main.route('/use_for_reporting')
+def report_table():
+    journals = Journal.query.all()
+    return render_template('report.html', journals=journals)
 ####################  分割线  ####################
 
-
-####################  辅助函数  ####################
-def check_permission():
-    # 检查当前用户是否有权限
-    if current_user.type == False:
-        flash('此操作无权限对于当前用户。', 'danger')
-        return redirect(url_for('main.index'))
-
-####################  分割线  ####################

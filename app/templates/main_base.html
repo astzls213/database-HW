@@ -11,23 +11,28 @@
 {% block my_styles %}
     
 {% endblock my_styles %}
-
 {% endblock styles %}
+
+{% block scripts %}
+{{ super() }}
+<script src=" {{ url_for('static', filename='renderer.js') }}"></script>
+<script>window.jQuery = window.$ = module.exports</script>
+{% endblock  %}
 
 {# 这是导航栏 #}
 {% block navbar %}
 {# inverse 用于深色模式 fixed-top 用于固定#}
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav id="top_nav" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">   {# 流式布局 #}
         <div class="navbar-header">
             <a class="navbar-brand" href="#">期刊管理系统</a>
         </div>
-        <ul class="nav navbar-nav navbar-right">
+        <ul id="top_nav_btn_list" class="nav navbar-nav navbar-right">
             <li><a href="">Wait</a></li>
             <li><a href="">to</a></li>
             <li><a href="">develop</a></li>
         </ul>
-        <form class="navbar-form navbar-right" action="{{ url_for('main.search') }}" method="POST">
+        <form id="top_nav_form" class="navbar-form navbar-right" action="{{ url_for('main.search') }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <select name="option" class="form-control">
                 <option value="cn_name">中文刊名</option>
@@ -53,7 +58,10 @@
                     <a href="{{ url_for('main.insert') }}">增添新期刊</a>
                 </li>
                 <li>
-                    <a href="">生成报表</a>
+                    <a id="gen_report" href="#">生成报表</a>
+                </li>
+                <li>
+                    <a id="print_report" href="{{ url_for('main.print_report') }}">打印报表</a>
                 </li>
             </ul>
         </div>
