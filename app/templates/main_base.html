@@ -28,9 +28,7 @@
             <a class="navbar-brand" href="#">期刊管理系统</a>
         </div>
         <ul id="top_nav_btn_list" class="nav navbar-nav navbar-right">
-            <li><a href="">Wait</a></li>
-            <li><a href="">to</a></li>
-            <li><a href="">develop</a></li>
+            <li><a href="{{ url_for('main.about') }}">关于作者</a></li>
         </ul>
         <form id="top_nav_form" class="navbar-form navbar-right" action="{{ url_for('main.search') }}" method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>

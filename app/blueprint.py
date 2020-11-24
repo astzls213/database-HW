@@ -14,8 +14,6 @@ from flask_login import (
     current_user
 )
 from datetime import datetime
-from pdfkit import from_url
-from xhtml2pdf import pisa
 from .forms import (
     LoginForm,
     RegisterForm,
@@ -369,3 +367,9 @@ def report_table():
     return render_template('report.html', journals=journals)
 ####################  分割线  ####################
 
+
+## 关于作者 彩蛋
+@main.route('/about')
+@login_required
+def about():
+    return render_template('about.html')
