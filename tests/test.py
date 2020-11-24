@@ -6,7 +6,7 @@ from app.models import (
     Organizer
 )
 
-# 初始化数据库
+# 初始化数据库 用于开发时测试
 def init_database(app,db):
     admin = User(
         'admin',
