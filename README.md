@@ -78,15 +78,15 @@
 
 登陆界面
 
-<img src="/Users/astzls/Downloads/jnu/database/login.png" alt="login" style="zoom:33%;" />
+![login](https://github.com/astzls213/database-HW/blob/main/login.png?raw=true)
 
 注册界面
 
-<img src="/Users/astzls/Downloads/jnu/database/register.png" alt="register" style="zoom:33%;" />
+![register](https://github.com/astzls213/database-HW/blob/main/register.png?raw=true)
 
 主界面
 
-<img src="/Users/astzls/Downloads/jnu/database/main.png" alt="main" style="zoom:33%;" />
+![main](https://github.com/astzls213/database-HW/blob/main/main.png?raw=true)
 
 ### Uninstall
 
