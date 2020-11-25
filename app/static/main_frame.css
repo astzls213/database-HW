@@ -3,8 +3,9 @@
  */
 
 /* Move down content because we have a fixed navbar that is 50px tall */
-body {
+  body {
     padding-top: 50px;
+    overflow: auto;
   }
   
   
@@ -111,4 +112,8 @@ body {
   
   .navbar-right {
     -webkit-app-region: no-drag;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
   }
