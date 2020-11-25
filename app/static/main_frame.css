@@ -105,5 +105,10 @@ body {
   }
 
   #top_nav {
+    -webkit-user-select: none;
     -webkit-app-region: drag;
+  }
+  
+  .navbar-right {
+    -webkit-app-region: no-drag;
   }
