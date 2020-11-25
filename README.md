@@ -2,11 +2,11 @@
 
 暨南大学数据库系统概念实验课项目，这门课的老师真的太拉了，实验课不上，第一周一上来就要我们写个大项目作为期末成绩，害，需求又说不好，就连数据集还是pdf，还好可以解析自动添加数据，不然我真的***。还要搞什么报表，我爆你老表啊艹。
 
-### Introduction
+## Introduction
 
 本项目主题是期刊管理系统（就是对期刊CURD的垃圾软件），一个小型跨平台桌面应用，后端基于Flask，鄙人不是很会前端，所以用了Bootstrap官网的模版作为GUI设计。同时使用Electron桌面化。
 
-### Preparing
+## Preparing
 
 1. 下载项目至您的电脑，该软件跨平台，已在Windows/Mac测试：
 
@@ -74,7 +74,7 @@
 
    Windows这么复杂是因为我不会写bat脚本，你们谁会可以帮我写个然后Pull Request。
 
-### Demo
+## Demo
 
 登陆界面
 
@@ -88,14 +88,14 @@
 
 ![main](https://github.com/astzls213/database-HW/blob/main/main.png?raw=true)
 
-### Uninstall
+## Uninstall
 
 ```bash
 # Just do this.
 cd .. && rm -rf database-HW
 ```
 
-### Contact
+## Contact
 
 APP里有作者的联系方式，当然这里也有：
 
