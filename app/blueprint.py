@@ -364,7 +364,8 @@ def print_report():
 @main.route('/use_for_reporting')
 def report_table():
     journals = Journal.query.all()
-    return render_template('report.html', journals=journals)
+    today = str(datetime.now()).split()[0]
+    return render_template('report.html', journals=journals, current_date=today)
 ####################  分割线  ####################
 
 
