@@ -1,3 +1,4 @@
+'''
 from app.models import (
     User,
     Journal,
@@ -7,6 +8,7 @@ from app.models import (
 )
 
 # 初始化数据库 用于开发时测试
+
 def init_database(app,db):
     admin = User(
         'admin',
@@ -45,3 +47,60 @@ def init_database(app,db):
         CMJ.organizers.append(organ1)
         CMJ.organizers.append(organ2)
         db.session.commit()
+'''
+
+import reportlab
+from reportlab.lib.units import mm
+from reportlab.pdfgen import canvas
+
+from PyPDF2 import PdfFileWriter, PdfFileReader
+import sys,os
+
+def createPagePdf(num, tmp):
+    c = canvas.Canvas(tmp)
+    for i in range(1,num+1): 
+        c.drawString((210//2)*mm, (4)*mm, str(i))
+        c.showPage()
+    c.save()
+    return 
+    with open(tmp, 'rb') as f:
+        pdf = PdfFileReader(f)
+        layer = pdf.getPage(0)
+    return layer
+
+
+if __name__ == "__main__":
+    path = 'report.pdf'
+    base = os.path.basename(path)
+
+    tmp = "__tmp.pdf"
+
+    batch = 10
+    batch = 0
+    output = PdfFileWriter()
+    with open(path, 'rb') as f:
+        pdf = PdfFileReader(f,strict=False)
+        n = pdf.getNumPages()
+        if batch == 0:
+            batch = -n
+        createPagePdf(n,tmp)
+        with open(tmp, 'rb') as ftmp:
+            numberPdf = PdfFileReader(ftmp)
+            for p in range(n):
+                if not p%batch and p:
+                    newpath = path.replace(base, base[:-4] + '_page_%d'%(p//batch) + path[-4:])
+                    with open(newpath, 'wb') as f:
+                        output.write(f)
+                    output = PdfFileWriter()
+                print('page: %d of %d'%(p, n))
+                page = pdf.getPage(p)
+                numberLayer = numberPdf.getPage(p)
+
+                page.mergePage(numberLayer)
+                output.addPage(page)
+            if output.getNumPages():
+                newpath = path.replace(base, base[:-4] + '_page_%d'%(p//batch + 1)  + path[-4:])
+                with open(newpath, 'wb') as f:
+                    output.write(f)
+
+        os.remove(tmp)
